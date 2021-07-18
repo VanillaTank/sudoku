@@ -1,0 +1,36 @@
+html {
+    box-sizing: border-box;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, li {
+    list-style: none;
+}
+
+
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+  
+body {
+    font-family: 'SFProDisplay-Regular', sans-serif;
+    color: #000000;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+/* сюда писать общие стили типа, у нас есть 3 блока с одинаковыми настройками
+шрифта. даем им один класс и пишем его сюда */
