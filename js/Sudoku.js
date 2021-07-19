@@ -30,33 +30,70 @@ class Sudoku {
     }
   }
 
-  get isSolved () {
-    for(const cell of this.body) {
-      if(cell.number === 0) {
+  static getFreeCell (sudoku) {
+    const cells = sudoku.body.filter(x => !x.number)
+    const index = Math.floor(Math.random() * cells.length)
+
+    return cells[index]
+  }
+
+  static getBusyCell (sudoku) {
+    const cells = sudoku.body.filter(x => x.number)
+    const index = Math.floor(Math.random() * cells.length)
+
+    return cells[index]
+  }
+
+  static generate (n) {
+    n = Math.min(81, Math.max(n, 0))
+
+    const w = new Sudoku
+
+    for(let i = 1; i <= 9; i++) {
+      const freeCell = Sudoku.getFreeCell(w)
+      freeCell.number = i
+    }
+
+    const s = w.solve()
+
+    for(let i = 0; i < 81 -n; i++) {
+      const busyCell = Sudoku.getBusyCell(s)
+      busyCell.number = 0
+    }
+
+    return new Sudoku(s.body.map(x=>x.number).join(''))
+  }
+
+  isSolved() {
+    for (const cell of this.body) {
+      if (cell.number === 0) {
         return false
       }
 
-      for(let i = 0; i < 9; i++) {
+      for (let i = 0; i < 9; i++) {
 
         const row = this.getRow(i).map(x => x.number)
-        for(let n = 1; i <= 9; i++) {
-          if(row.includes(n)) {
+        for (let n = 1; n <= 9; n++) {
+          if (!row.includes(n)) {
+            console.log(1);
             return false
           }
         }
 
 
         const column = this.getColumn(i).map(x => x.number)
-        for(let n = 1; i <= 9; i++) {
-          if(column.includes(n)) {
+        for (let n = 1; n <= 9; n++) {
+          if (!column.includes(n)) {
+            console.log(2);
             return false
           }
         }
 
 
         const segment = this.getSegment(i).map(x => x.number)
-        for(let n = 1; i <= 9; i++) {
-          if(segment.includes(n)) {
+        for (let n = 1; n <= 9; n++) {
+          if (!segment.includes(n)) {
+            console.log(3);
             return false
           }
         }
@@ -312,21 +349,21 @@ class Sudoku {
 
     const potentials = copy.getPotentials()
 
-    mainLoop: 
-    for(let power = 2; power <= 9; power++) {
-      for(let i = 0; i < 8; i++) {
-        if(potentials[i].length === power) {
-          for(const value of potentials[i]) {
+    mainLoop:
+    for (let power = 2; power <= 9; power++) {
+      for (let i = 0; i < 81; i++) {
+        if (potentials[i].length === power) {
+          for (const value of potentials[i]) {
             const nextCopy = copy.getCopy()
             nextCopy.body[i].number = value
-            
+
             const resultCopy = nextCopy.solve()
-            if(resultCopy.isSolved) {
+            if (resultCopy.isSolved) {
               return resultCopy
-            } 
+            }
           }
-           break mainLoop
-        } 
+          break mainLoop
+        }
       }
     }
 

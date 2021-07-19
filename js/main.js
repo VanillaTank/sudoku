@@ -11,8 +11,12 @@
 //     2 8 1   0 4 0   0 0 0
 //     0 0 5   0 9 0   0 8 0
 // `)
-const sudoku = new Sudoku
+// const sudoku = new Sudoku
+// document
+//     .querySelector('#app')
+//     .append(sudoku.getHTML(500))
+
+const w = Sudoku.generate(30)
 document
     .querySelector('#app')
-    .append(sudoku.getHTML(500))
-
+    .append(w.getHTML(500))
